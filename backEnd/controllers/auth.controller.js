@@ -38,7 +38,6 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   try {
     const cutToken = req.headers.authorization.split(" ")[1];
-    console.log(cutToken)
     await Session.deleteOne({ token: cutToken });
     const isError = await Session.findOne({ token: cutToken });
     if (isError) {

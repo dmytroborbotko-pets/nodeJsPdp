@@ -5,9 +5,8 @@ const deleteSessionSchedule = async () => {
   try {
     const sessions = await Session.find({});
     if (!sessions || sessions.length === 0) {
-      return false;
+      return;
     }
-    console.log(`sessions: ${JSON.stringify(sessions)}`);
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
     for (const session of sessions) {

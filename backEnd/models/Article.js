@@ -9,3 +9,5 @@ const ArticleSchema = new Schema(
   },
   { timestamps: true }
 );
+
+module.exports = model("Article", ArticleSchema);

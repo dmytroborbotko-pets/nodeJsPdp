@@ -1,25 +1,22 @@
 const express = require("express");
 const authenticateToken = require("../middlewares/authenticateToken");
+const {
+  getArticles,
+  getArticleById,
+  createArticle,
+  editArticle,
+  deleteArticle,
+} = require("../controllers/article.controller");
 const router = express.Router();
 
-router.get("/", authenticateToken, (req, res) => {
-  res.send("Get articles");
-});
+router.get("/", getArticles);
 
-router.get("/:id", (req, res) => {
-  res.send("Get article by id");
-});
+router.get("/:id", getArticleById);
 
-router.post("/create", authenticateToken, (req, res) => {
-  res.send("Create article");
-});
+router.post("/create", authenticateToken, createArticle);
 
-router.put("/:id", authenticateToken, (req, res) => {
-  res.send("Update article by id");
-});
+router.put("/:id", authenticateToken, editArticle);
 
-router.delete("/:id", authenticateToken, (req, res) => {
-  res.send("Delete article by id");
-});
+router.delete("/:id", authenticateToken, deleteArticle);
 
 module.exports = router;
