@@ -7,7 +7,7 @@ const {
 } = require("../controllers/user.controller");
 const router = express.Router();
 
-router.get("/:id", authenticateToken, getUserById);
+router.get("/:id", getUserById);
 
 router.put("/:id", authenticateToken, editUser);
 

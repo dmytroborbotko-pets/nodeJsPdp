@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../services/api";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [timeout, setTimeoutSuccess] = useState(false);
+
+  const [login, { isLoading }] = useLoginMutation();
 
   return (
     <Container
@@ -16,8 +20,29 @@ function LoginPage() {
         justifyContent: "center",
         height: "85vh",
         overflow: "hidden",
+        opacity: timeout ? 0.5 : 1,
       }}
     >
+      {timeout && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 9999,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h3" color="white" fontWeight="bold">
+            Login successful!
+          </Typography>
+        </Box>
+      )}
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
@@ -26,10 +51,20 @@ function LoginPage() {
         </Typography>
         <Formik
           initialValues={{ email: "", password: "" }}
-          onSubmit={(values, { setSubmitting }) => {
-            // Handle form submission
-            console.log(values);
-            setSubmitting(false);
+          onSubmit={async (values, { setSubmitting }) => {
+            const loginData = await login(values).unwrap();
+            if (loginData) {
+              console.log(loginData);
+              localStorage.setItem("token", loginData.token);
+              localStorage.setItem("user", loginData.userId);
+              setSubmitting(false);
+
+              setTimeoutSuccess(true);
+              setTimeout(() => {
+                setTimeoutSuccess(false);
+                navigate("/");
+              }, 1000);
+            }
           }}
         >
           {({ isSubmitting }) => (

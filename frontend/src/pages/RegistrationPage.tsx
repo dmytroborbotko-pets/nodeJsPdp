@@ -2,9 +2,12 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useCreateUserMutation } from "../services/api";
 
 function RegistrationPage() {
   const navigate = useNavigate();
+
+  const [createUser, { isLoading }] = useCreateUserMutation();
 
   return (
     <Container
@@ -25,11 +28,14 @@ function RegistrationPage() {
           Sign Up
         </Typography>
         <Formik
-          initialValues={{ name: "", surname: "", email: "", password: "" }}
-          onSubmit={(values, { setSubmitting }) => {
-            // Handle form submission
-            console.log(values);
-            setSubmitting(false);
+          initialValues={{ username: "", email: "", password: "" }}
+          onSubmit={async (values, { setSubmitting }) => {
+            const isSuccess = await createUser(values).unwrap();
+            if (isSuccess) {
+              console.log(isSuccess);
+              setSubmitting(false);
+              navigate("/login");
+            }
           }}
         >
           {({ isSubmitting }) => (
@@ -39,19 +45,10 @@ function RegistrationPage() {
                 margin="normal"
                 required
                 fullWidth
-                id="name"
-                label="Name"
-                name="name"
+                id="username"
+                label="Username"
+                name="username"
                 autoFocus
-              />
-              <Field
-                as={TextField}
-                margin="normal"
-                required
-                fullWidth
-                id="surname"
-                label="Surname"
-                name="surname"
               />
               <Field
                 as={TextField}

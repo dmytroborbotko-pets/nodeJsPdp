@@ -23,14 +23,14 @@ function LayoutPage({ children }: { children: React.ReactElement }) {
           {(location.pathname === "/profile" ||
             location.pathname === "/create-article" ||
             location.pathname === "/user" ||
-            location.pathname === "/article") && (
+            location.pathname.startsWith("/article/")) && (
             <IconButton
               size="large"
               edge="start"
               color="inherit"
               aria-label="go back"
               onClick={() => navigate(-1)}
-              sx={{ marginRight: 'auto' }}
+              sx={{ marginRight: "auto" }}
             >
               <ArrowBackIcon />
             </IconButton>

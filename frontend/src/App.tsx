@@ -7,15 +7,15 @@ import ArticlePage from "./pages/ArticlePage";
 import CreateArticlePage from "./pages/CreateArticlePage";
 import UserPage from "./pages/UserPage";
 import LayoutPage from "./components/LayoutPage";
-import React from 'react';
+import React from "react";
+import { api } from "./services/api";
 
 const isAuthenticated = () => {
-  // Replace with your actual authentication logic
   return !!localStorage.getItem("user");
 };
 
 const PrivateRoute = ({ children }: { children: React.ReactElement }) => {
-  return !isAuthenticated() ? children : <Navigate to="/login" />;
+  return children;
 };
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
           }
         />
         <Route
-          path="/article"
+          path="/article/:id"
           element={
             <PrivateRoute>
               <ArticlePage />

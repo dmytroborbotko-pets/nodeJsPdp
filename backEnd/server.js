@@ -7,12 +7,14 @@ const articleRouter = require("./router/article.routes");
 const dotenv = require("dotenv");
 const { deleteSessionSchedule } = require("./services/deleteSessionShchedule");
 const cron = require("node-cron");
+const cors = require("cors");
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -3,13 +3,18 @@ const Article = require("../models/Article");
 const getArticles = async (req, res) => {
   try {
     let articles;
-    if (req.headers.authorization) {
+    if (!req.headers.authorization.includes("null")) {
       articles = await Article.find({});
     } else {
       articles = await Article.find({ type: "public" });
     }
     let updArticles = articles.map((article) => {
-      return { _id: article._id, title: article.title };
+      return {
+        _id: article._id,
+        title: article.title,
+        author: article.author,
+        createdAt: article.createdAt,
+      };
     });
     const { search, limit } = req.query;
 
