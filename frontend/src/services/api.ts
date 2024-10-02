@@ -4,7 +4,7 @@ import { Article } from "../types/dataTypes";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_URL_SERVER}/api`,
+    baseUrl: `https://backend-bitter-wave-1281.fly.dev/api`,
   }),
   tagTypes: ["Session", "User", "Article"],
   endpoints: (builder) => ({
